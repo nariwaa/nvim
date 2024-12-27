@@ -102,7 +102,20 @@ M.ui = {
     load_on_startup = true,
     header = ascii_art_flower,
   },
+
+  hl_override = {
+      NvDashAscii = {
+      fg = "blue",
+      bg = "one_bg",
+      },
+
+    NvDashButtons = {
+      fg = "blue",
+      bg = "one_bg",
+    },
+  },
 }
+
 
 M.plugins = 'custom.plugins'
 return M
