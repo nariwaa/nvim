@@ -53,7 +53,7 @@ local plugins = {
                 chat_url = "/v1/chat/completions",
               },
               schema = {
-                model = { default = "mistral-nemo" },
+                model = { default = "deepseek-coder-v2:16b" },
               }
             })
           end,
