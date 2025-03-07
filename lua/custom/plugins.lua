@@ -1,5 +1,9 @@
 local plugins = {
   {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+  },
+  {
     "xiyaowong/transparent.nvim",
     lazy = false
   },
@@ -11,6 +15,13 @@ local plugins = {
       maxkeys = 5,
       position = "bottom-left"
     }
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function ()
+      require "plugins.configs.lspconfig"
+      require "custom.configs.lspconfig"
+    end,
   },
   {
     "gbprod/substitute.nvim",
