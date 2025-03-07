@@ -64,11 +64,4 @@ require("lspconfig").lua_ls.setup {
   },
 }
 
--- zig LSP
-require("lspconfig").zls.setup {
-  on_init = M.on_init,
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
-}
-
 return M
