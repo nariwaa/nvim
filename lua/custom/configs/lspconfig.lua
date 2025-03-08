@@ -31,3 +31,6 @@ lspconfig.rust_analyzer.setup(vim.tbl_extend("force", common_setup, {
 
 -- Setup for Zig
 lspconfig.zls.setup(common_setup)
+
+-- Setup for C and C++ using clangd
+lspconfig.clangd.setup(common_setup)
