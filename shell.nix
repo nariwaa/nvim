@@ -6,6 +6,7 @@ pkgs.mkShell {
     cargo
     gcc
     go
+    lua
   ];
 
   shellHook = ''

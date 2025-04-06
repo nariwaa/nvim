@@ -34,3 +34,7 @@ lspconfig.zls.setup(common_setup)
 
 -- Setup for C and C++ using clangd
 lspconfig.clangd.setup(common_setup)
+
+-- setup js
+lspconfig.ts_ls.setup(common_setup)
+
