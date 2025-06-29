@@ -9,19 +9,30 @@ local plugins = {
           vim.g.molten_output_win_max_height = 20
       end,
   },
-  {
-      -- see the image.nvim readme for more information about configuring this plugin
-      "3rd/image.nvim",
-      opts = {
-          backend = "kitty", -- whatever backend you would like to use
-          max_width = 100,
-          max_height = 12,
-          max_height_window_percentage = math.huge,
-          max_width_window_percentage = math.huge,
-          window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-          window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-      },
-  },
+  -- {
+  --   -- see the image.nvim readme for more information about configuring this plugin
+  --   "3rd/image.nvim",
+  --   opts = {
+  --     backend = "kitty", -- whatever backend you would like to use
+  --     max_width = 100,
+  --     max_height = 12,
+  --     max_height_window_percentage = math.huge,
+  --     max_width_window_percentage = math.huge,
+  --     window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+  --     window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+  --     integrations = {
+  --       markdown = {
+  --         enabled = true,
+  --         clear_in_insert_mode = false,
+  --         download_remote_images = true,
+  --         only_render_image_at_cursor = false,
+  --         floating_windows = false, -- if true, images will be rendered in floating markdown windows
+  --         filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+  --       },
+  --     },
+  --   },
+  --   lazy = false,
+  -- },
   {
     "christoomey/vim-tmux-navigator",
     lazy = false,
@@ -87,7 +98,7 @@ local plugins = {
                 chat_url = "/v1/chat/completions",
               },
               schema = {
-                model = { default = "deepseek-coder-v2:16b" },
+                model = { default = "qwen3" },
               }
             })
           end,
