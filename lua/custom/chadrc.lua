@@ -47,6 +47,7 @@ local ascii_art_ribbon = {
 }
 
 M.ui = {
+  theme = "blossom_light",
   nvdash = {
     load_on_startup = true,
     header = ascii_art_flower,
@@ -54,12 +55,12 @@ M.ui = {
 
   hl_override = {
       NvDashAscii = {
-      fg = "blue",
+      fg = "pink",
       bg = "one_bg",
       },
 
     NvDashButtons = {
-      fg = "blue",
+      fg = "pink",
       bg = "one_bg",
     },
   },

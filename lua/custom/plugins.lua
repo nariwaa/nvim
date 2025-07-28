@@ -47,7 +47,7 @@ local plugins = {
     opts = {
       timeout = 1,
       maxkeys = 5,
-      position = "bottom-left"
+      position = "bottom-right"
     }
   },
   {
@@ -94,7 +94,7 @@ local plugins = {
           ollama = function()
             return require("codecompanion.adapters").extend("openai_compatible", {
               env = {
-                url = "http://192.168.1.122:11434",
+                url = "http://192.168.1.212:11434",
                 chat_url = "/v1/chat/completions",
               },
               schema = {
