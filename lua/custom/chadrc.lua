@@ -47,7 +47,7 @@ local ascii_art_ribbon = {
 }
 
 M.ui = {
-  theme = "blossom_light",
+  theme = "everforest_light",
   nvdash = {
     load_on_startup = true,
     header = ascii_art_flower,
