@@ -91,17 +91,19 @@ local plugins = {
     config = function()
       require("codecompanion").setup({
         adapters = {
-          ollama = function()
-            return require("codecompanion.adapters").extend("openai_compatible", {
-              env = {
-                url = "http://192.168.1.212:11434",
-                chat_url = "/v1/chat/completions",
-              },
-              schema = {
-                model = { default = "qwen3" },
-              }
-            })
-          end,
+          http = {
+            ollama = function()
+              return require("codecompanion.adapters").extend("openai_compatible", {
+                env = {
+                  url = "http://192.168.1.212:11434",
+                  chat_url = "/v1/chat/completions",
+                },
+                schema = {
+                  model = { default = "qwen3" },
+                },
+              })
+            end,
+          },
         },
         strategies = {
           chat = {
