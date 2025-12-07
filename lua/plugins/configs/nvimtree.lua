@@ -1,3 +1,5 @@
+vim.g.nvimtree_side = "right"
+
 local options = {
   filters = {
     dotfiles = false,

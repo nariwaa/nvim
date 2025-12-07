@@ -117,6 +117,79 @@ local plugins = {
     end,
     lazy = false
   },
+  {
+    "rcarriga/nvim-notify",
+    lazy = false,
+    config = function()
+      local notify = require "notify"
+      notify.setup {
+        level = vim.log.levels.INFO,
+        render = "compact",
+        timeout = 3000,
+        stages = "fade_in_slide_out",
+        top_down = false,
+      }
+      vim.notify = notify
+    end,
+  },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    opts = {
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = true,
+      },
+      lsp = {
+        progress = {
+          enabled = true,
+          view = "mini",
+        },
+        hover = { enabled = true },
+        signature = { enabled = true },
+        message = { enabled = true },
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      messages = { view_search = "mini" },
+      routes = {
+        {
+          filter = { event = "msg_show", find = "written" },
+          opts = { skip = true },
+        },
+      },
+    },
+  },
+  {
+    "folke/trouble.nvim",
+    cmd = "Trouble",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      focus = true,
+      use_diagnostic_signs = true,
+      modes = {
+        diagnostics = {
+          win = { position = "bottom", size = 12 },
+        },
+      },
+    },
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+      { "<leader>xw", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
+      { "<leader>xr", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "References (Trouble)" },
+      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false win.position=right<cr>", desc = "Symbols (Trouble)" },
+    },
+  },
 }
 
 return plugins
