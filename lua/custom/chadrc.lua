@@ -1,6 +1,9 @@
 ---@type ChadrcConfig
 
 local M = {}
+local theme_cycle = require "custom.theme_cycle"
+
+local primary_theme, secondary_theme = theme_cycle.setup()
 
 local ascii_art_flower = {
   "       ⊹⠀⠀⠀ ⣤⣶⠿⢖⣢⣴⣶⣦⣤⣄         ",
@@ -47,10 +50,33 @@ local ascii_art_ribbon = {
 }
 
 M.ui = {
-  theme = "blossom_light",
+  theme = primary_theme,
+  theme_toggle = { primary_theme, secondary_theme },
   nvdash = {
     load_on_startup = true,
     header = ascii_art_flower,
+    buttons = (function()
+      local info = theme_cycle.ensure()
+      local icon_main = ""
+      local icon_secondary = ""
+      local buttons = {
+        { string.format("%s  Main: %s (%s)", icon_main, info.primary, info.phase), "", "Telescope themes" },
+      }
+
+      local secondary = info.secondary
+      if secondary and secondary ~= primary_theme then
+        table.insert(buttons, { string.format("%s  Secondary: %s", icon_secondary, secondary), "", "Telescope themes" })
+      end
+
+      table.insert(buttons, { "  Find File", "Spc f f", "Telescope find_files" })
+      table.insert(buttons, { "󰈚  Recent Files", "Spc f o", "Telescope oldfiles" })
+      table.insert(buttons, { "󰈭  Find Word", "Spc f w", "Telescope live_grep" })
+      table.insert(buttons, { "  Bookmarks", "Spc m a", "Telescope marks" })
+      table.insert(buttons, { "  Themes", "Spc t h", "Telescope themes" })
+      table.insert(buttons, { "  Mappings", "Spc c h", "NvCheatsheet" })
+
+      return buttons
+    end)(),
   },
 
   statusline = {
