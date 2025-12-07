@@ -1,6 +1,45 @@
 local M = {}
 
 local state
+local seed_info
+local seed_file = vim.fn.stdpath("state") .. "/theme_seed"
+
+local function save_seed(info)
+  local dir = vim.fn.fnamemodify(seed_file, ":h")
+  vim.fn.mkdir(dir, "p")
+
+  local ok, fd = pcall(io.open, seed_file, "w")
+  if ok and fd then
+    fd:write(string.format("%s|%d", info.date, info.offset))
+    fd:close()
+  end
+end
+
+local function load_seed()
+  local today = os.date("%Y-%m-%d")
+
+  if seed_info and seed_info.date == today then
+    return seed_info
+  end
+
+  local offset = 1
+  local fd = io.open(seed_file, "r")
+  if fd then
+    local contents = fd:read "*l"
+    fd:close()
+    if contents then
+      local stored_date, stored_offset = contents:match("([^|]+)|([^|]+)")
+      if stored_date == today then
+        offset = tonumber(stored_offset) or 0
+      end
+    end
+  end
+
+  seed_info = { date = today, offset = offset }
+  save_seed(seed_info)
+
+  return seed_info
+end
 
 local function list_available_themes()
   local themes = {}
@@ -79,8 +118,8 @@ local function deterministic_index(pool, phase)
   if #pool == 0 then
     return 1
   end
-
-  local date_key = os.date("%Y-%m-%d") .. ":" .. phase
+  local seed = load_seed()
+  local date_key = string.format("%s:%s:%d", seed.date, phase, seed.offset)
   local hash = vim.fn.sha256(date_key)
   local num = tonumber(hash:sub(1, 12), 16) or 0
 
@@ -94,6 +133,7 @@ end
 
 local function compute()
   local phase = current_phase()
+  local seed = load_seed()
   local day_themes, night_themes = split_themes()
   local main_pool = phase == "day" and day_themes or night_themes
   local secondary_pool = phase == "day" and night_themes or day_themes
@@ -117,6 +157,8 @@ local function compute()
     secondary = secondary,
     phase = phase,
     label = string.format(" %s (%s)", primary, phase),
+    seed_date = seed.date,
+    seed_offset = seed.offset,
   }
 
   vim.g.dynamic_theme_phase = state.phase
@@ -137,6 +179,25 @@ end
 function M.setup()
   local info = compute()
   return info.primary, info.secondary
+end
+
+function M.shuffle()
+  local seed = load_seed()
+  seed.offset = seed.offset + 1
+  save_seed(seed)
+  state = nil
+  return compute()
+end
+
+function M.apply(theme)
+  local ok, base46 = pcall(require, "base46")
+  if ok and theme then
+    vim.g.nvchad_theme = theme
+    pcall(function()
+      base46.load_all_highlights()
+      vim.cmd.colorscheme(theme)
+    end)
+  end
 end
 
 function M.label()

@@ -7,31 +7,21 @@ if vim.lsp and vim.lsp.get_clients and vim.lsp.get_active_clients then
   end
 end
 
-if vim.g.dynamic_theme_label then
-  local group = vim.api.nvim_create_augroup("CustomDynamicThemeBanner", { clear = true })
-
-  vim.api.nvim_create_autocmd("BufWinEnter", {
-    group = group,
-    pattern = "NvimTree",
-    callback = function(args)
-      if vim.api.nvim_buf_get_option(args.buf, "filetype") ~= "NvimTree" then
-        return
-      end
-
-      local label = " " .. (theme_cycle.label() or "") .. " "
-      vim.api.nvim_set_option_value("winbar", label, { scope = "local", win = args.win })
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("BufWinLeave", {
-    group = group,
-    pattern = "NvimTree",
-    callback = function(args)
-      if vim.api.nvim_buf_get_option(args.buf, "filetype") ~= "NvimTree" then
-        return
-      end
-
-      vim.api.nvim_set_option_value("winbar", "", { scope = "local", win = args.win })
-    end,
-  })
-end
+vim.api.nvim_create_user_command("ThemeShuffle", function(opts)
+  local info = theme_cycle.shuffle()
+  if opts.bang then
+    theme_cycle.apply(info.primary)
+  end
+  local message = string.format(
+    "%s (%s) secondary %s",
+    info.primary,
+    info.phase,
+    info.secondary or info.primary
+  )
+  local note = opts.bang and "Applied immediately" or "Will load next start"
+  vim.notify(
+    note .. ": " .. message,
+    vim.log.levels.INFO,
+    { title = "Theme Shuffle", timeout = 3000 }
+  )
+end, { bang = true })
