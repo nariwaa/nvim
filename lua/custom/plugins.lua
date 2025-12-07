@@ -190,6 +190,76 @@ local plugins = {
       { "<leader>xs", "<cmd>Trouble symbols toggle focus=false win.position=right<cr>", desc = "Symbols (Trouble)" },
     },
   },
+  {
+    "stevearc/dressing.nvim",
+    event = "VeryLazy",
+    opts = {
+      input = {
+        default_prompt = "➤ ",
+        win_options = {
+          winblend = 10,
+        },
+        insert_only = false,
+      },
+      select = {
+        backend = { "telescope", "builtin" },
+        builtin = {
+          winblend = 10,
+          preview = false,
+        },
+      },
+    },
+  },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      jump = {
+        autojump = true,
+      },
+      highlight = {
+        backdrop = false,
+      },
+      modes = {
+        char = {
+          enabled = true,
+          keys = { "f", "F", "t", "T" },
+        },
+      },
+    },
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash Jump" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Flash Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+  {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    dependencies = {
+      "folke/twilight.nvim",
+    },
+    opts = {
+      window = {
+        backdrop = 0.9,
+        width = 0.6,
+        options = {
+          number = false,
+          relativenumber = false,
+        },
+      },
+      plugins = {
+        twilight = { enabled = true },
+        gitsigns = { enabled = true },
+        tmux = { enabled = false },
+      },
+    },
+    keys = {
+      { "<leader>zz", "<cmd>ZenMode<cr>", desc = "Toggle Zen Mode" },
+    },
+  },
 }
 
 return plugins
